@@ -1,6 +1,2 @@
 /vendor/
 /.vscode/
-logs
-*.swo
-*.swp
-*.cache
