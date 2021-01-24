@@ -8,6 +8,11 @@
             "email": "emit580@gmail.com"
         }
     ],
+    "autoload": {
+        "files": [
+            "public/index.php"
+        ]
+    },
     "require": {
         "slim/slim": "^4.7",
         "slim/psr7": "^1.3",
