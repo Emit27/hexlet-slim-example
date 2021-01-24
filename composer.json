@@ -1,0 +1,12 @@
+{
+    "name": "marud/hexlet-slim-example",
+    "description": "example package",
+    "license": "mit",
+    "authors": [
+        {
+            "name": "emit",
+            "email": "emit580@gmail.com"
+        }
+    ],
+    "require": {}
+}
