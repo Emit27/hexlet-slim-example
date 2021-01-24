@@ -1,7 +1,7 @@
 {
     "name": "marud/hexlet-slim-example",
     "description": "example package",
-    "license": "mit",
+    "license": "MIT",
     "authors": [
         {
             "name": "emit",
