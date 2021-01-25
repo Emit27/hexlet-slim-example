@@ -9,13 +9,17 @@
         }
     ],
     "autoload": {
-        "files": [
-            "public/index.php"
-        ]
+        "psr-4": {
+            "CHR\\": "public/"
+        }
     },
+    "minimum-stability": "dev",
     "require": {
         "slim/slim": "^4.7",
         "slim/psr7": "^1.3",
-        "slim/http": "^1.2"
+        "slim/http": "^1.2",
+        "fzaninotto/faker": "^1.9",
+        "guzzlehttp/guzzle": "^7.2",
+        "tightenco/collect": "^8.19"
     }
 }
