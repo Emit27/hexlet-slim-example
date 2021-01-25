@@ -36,6 +36,9 @@ $app->get('/domains', function ($request, $response) use ($domains) {
 
     return $response->write(json_encode($domains));
 });
+$app->post('/users', function ($request, $response) {
+    return $response->withStatus(302);
+});
 // END
 
 $app->run();
