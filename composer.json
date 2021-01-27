@@ -11,7 +11,10 @@
     "autoload": {
         "psr-4": {
             "CHR\\": "public/"
-        }
+        },
+        "files": [
+            "public/generator.php"
+        ]
     },
     "minimum-stability": "dev",
     "require": {

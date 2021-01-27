@@ -3,42 +3,29 @@
 namespace SHR;
 
 use Slim\Factory\AppFactory;
-use Faker\Factory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$faker = Factory::create();
-$faker->seed(1234);
-
-$domains = [];
-for ($i = 0; $i < 10; $i++) {
-    $domains[] = $faker->domainName;
-}
-
-$phones = [];
-for ($i = 0; $i < 10; $i++) {
-    $phones[] = $faker->phoneNumber;
-}
+$companies = \SHR\Gen\Generator::generate(100);
 
 $app = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
 
 $app->get('/', function ($request, $response) {
-    return $response->write('go to the /phones or /domains');
+    return $response->write('go to the /companies');
 });
 
 // BEGIN (write your solution here)
-$app->get('/phones', function ($request, $response) use ($phones) {
+//print_r($companies);
 
-    return $response->write(json_encode($phones));
+$app->get('/companies', function ($request, $response) use ($companies) {
+    $page = $request->getQueryParam('page', 1);
+    $per = $request->getQueryParam('per', 5);
+    $offset = ($page - 1) * $per;
+    $companies = json_encode(array_slice($companies, $offset, $per));
+    return $response->write($companies);
 });
-$app->get('/domains', function ($request, $response) use ($domains) {
 
-    return $response->write(json_encode($domains));
-});
-$app->post('/users', function ($request, $response) {
-    return $response->withStatus(302);
-});
 // END
 
 $app->run();
