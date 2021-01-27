@@ -11,19 +11,26 @@ $companies = \SHR\Gen\Generator::generate(100);
 $app = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
 
-$app->get('/', function ($request, $response) {
-    return $response->write('go to the /companies');
+
+$app->get('/', function ($request, $response, $args) {
+    return $response->write('open something like (you can change id): /companies/5');
 });
 
 // BEGIN (write your solution here)
-//print_r($companies);
 
-$app->get('/companies', function ($request, $response) use ($companies) {
-    $page = $request->getQueryParam('page', 1);
-    $per = $request->getQueryParam('per', 5);
-    $offset = ($page - 1) * $per;
-    $companies = json_encode(array_slice($companies, $offset, $per));
-    return $response->write($companies);
+/* return $response
+  ->withHeader('Location', 'https://www.example.com')
+  ->withStatus(302); */
+
+// BEGIN (write your solution here)
+
+$app->get('/companies/{id:[0-9]+}', function ($request, $response, $args) use ($companies) {
+    $id = $args['id'];
+    $company = collect($companies)->firstWhere('id', $id);
+    if (!$company) {
+        return $response->withStatus(404)->write('Page not found');
+    }
+    return $response->write(json_encode($company));
 });
 
 // END
