@@ -23,6 +23,8 @@
         "slim/http": "^1.2",
         "fzaninotto/faker": "^1.9",
         "guzzlehttp/guzzle": "^7.2",
-        "tightenco/collect": "^8.19"
+        "tightenco/collect": "^8.19",
+        "slim/php-view": "dev-master",
+        "php-di/php-di": "dev-master"
     }
 }
