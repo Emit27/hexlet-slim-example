@@ -7,25 +7,31 @@ use DI\Container;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$users = \SHR\Gen\Generator::generate(100);
+
 $container = new Container();
 $container->set('renderer', function () {
-    // Параметром передается базовая директория, в которой будут храниться шаблоны
     return new \Slim\Views\PhpRenderer(__DIR__ . '/../templates');
 });
-$app = AppFactory::createFromContainer($container);
+//print_r($users);
+AppFactory::setContainer($container);
+$app = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
 
-
-$app->get('/', function ($request, $response, $args) {
-    return $response->write('open something like (you can change id): /companies/5');
+$app->get('/', function ($request, $response) {
+    return $this->get('renderer')->render($response, 'index.phtml');
 });
 
-$app->get('/users/{id}', function ($request, $response, $args) {
-    $params = ['id' => $args['id'], 'nickname' => 'user-' . $args['id']];
-    // Указанный путь считается относительно базовой директории для шаблонов, заданной на этапе конфигурации
-    // $this доступен внутри анонимной функции благодаря https://php.net/manual/ru/closure.bindto.php
-    // $this в Slim это контейнер зависимостей
+// BEGIN (write your solution here)
+$app->get('/users', function ($request, $response, $args) use ($users) {
+        $params = ['users' => $users];
+        return $this->get('renderer')->render($response, 'users/index.phtml', $params);
+});
+//collect($companies)->firstWhere('id', $id);
+$app->get('/users/{id:[0-9]+}', function ($request, $response, $args) use ($users) {
+    $params = ['user' => collect($users) -> firstWhere('id', $args['id'])];
     return $this->get('renderer')->render($response, 'users/show.phtml', $params);
 });
+// END
 
 $app->run();
