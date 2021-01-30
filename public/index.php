@@ -1,13 +1,13 @@
 <?php
 
-namespace SHR;
+namespace Src;
 
 use Slim\Factory\AppFactory;
 use DI\Container;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$users = \SHR\Gen\Generator::generate(100);
+$users = \Src\Generator::generate(100);
 
 $container = new Container();
 $container->set('renderer', function () {
@@ -23,14 +23,16 @@ $app->get('/', function ($request, $response) {
 });
 
 // BEGIN (write your solution here)
-$app->get('/users', function ($request, $response, $args) use ($users) {
+$app->get('/users[/{id:[0-9]+}]', function ($request, $response, $args) use ($users) {
+    if (!is_null($args['id'])) {
+        $id = (int) $args['id'];
+        $user = collect($users) -> firstWhere('id', $id);
+        $params2 = ['user' => collect($users) -> firstWhere('id', $id)];
+        return $this->get('renderer')->render($response, 'users/show.phtml', $params2);
+    } else {
         $params = ['users' => $users];
         return $this->get('renderer')->render($response, 'users/index.phtml', $params);
-});
-//collect($companies)->firstWhere('id', $id);
-$app->get('/users/{id:[0-9]+}', function ($request, $response, $args) use ($users) {
-    $params = ['user' => collect($users) -> firstWhere('id', $args['id'])];
-    return $this->get('renderer')->render($response, 'users/show.phtml', $params);
+    }
 });
 // END
 

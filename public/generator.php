@@ -1,6 +1,6 @@
 <?php
 
-namespace SHR\Gen;
+namespace Src;
 
 class Generator
 {
